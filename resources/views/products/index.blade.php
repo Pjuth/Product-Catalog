@@ -5,30 +5,48 @@
         <table class="table thead-dark">
             <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">SKU</th>
-                <th scope="col">Status</th>
+                <th scope="col">Product</th>
                 <th scope="col">Price</th>
-                <th scope="col">Special Price</th>
-                <th scope="col">Image</th>
-                <th scope="col">Description</th>
+                @auth
+                    <th scope="col">Actions</th>
+                @endauth
             </tr>
             </thead>
             @foreach($products as $product)
                 <tr>
-                    <td>{{$product->id}}</td>
-                    <td>{{$product->name}}</td>
-                    <td>{{$product->sku}}</td>
-                    <td>{{$product->status}}</td>
-                    <td>{{$product->basePrice}}</td>
-                    <td>{{$product->specialPrice}}</td>
-                    <td>{{$product->image}}</td>
-                    <td>{{$product->description}}</td>
+                    <td>
+                        <div class="media">
+                            <a href="#" class="thumbnail pull-left"><img class="media-object"
+                                                                         src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png"
+                                                                         style="width: 72px; height: 72px;"></a>
+                            <div class="media-body ml-4">
+                                <h4 class="media-heading"><a href="#">{{ $product->name }}</a>
+                                    @if(Auth::user() && !$product->status)
+                                        <span class="text-danger">Hidden</span>
+                                    @endif
+                                </h4>
+                                <p>SKU: {{ $product->sku }}</p>
+                                <p>{{ $product->description }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @if($product->specialPrice)
+                            <h4 class="text-success">{{ $product->specialPrice }}</h4>
+                            <p><strike>{{ $product->basePrice }}</strike></p>
+                        @else
+                            <h4>{{ $product->basePrice }}</h4>
+                        @endif
+                    </td>
+                    @auth
+                        <td>
+                            <a href="#" class="btn btn-warning">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </td>
+                    @endauth
                 </tr>
             @endforeach
-
-
         </table>
+        <div>{{ $products->links() }}</div>
     </div>
 @endsection
