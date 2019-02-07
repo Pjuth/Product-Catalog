@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -14,9 +15,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('products/index', [
-            'products' => Product::where('status', true)->paginate(10),
-        ]);
+        if (Auth::user()) {
+            return view('products/index', [
+                'products' => Product::paginate(10),
+            ]);
+        } else {
+            return view('products/index', [
+                'products' => Product::where('status', true)->paginate(10),
+            ]);
+        }
     }
 
     /**
@@ -44,15 +51,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'         => 'required',
-            'sku'          => 'required',
-            'status'       => 'required',
-            'basePrice'    => 'required',
-            'specialPrice' => 'required',
-            'description'  => 'required',
+            'name'        => 'required',
+            'sku'         => 'required',
+            'status'      => 'required',
+            'basePrice'   => 'required',
+            'description' => 'required',
 
         ]);
-        dd($request->status);
         Product::create([
             'name'         => $request->name,
             'sku'          => $request->sku,
@@ -62,7 +67,7 @@ class ProductController extends Controller
             'description'  => $request->description,
         ]);
 
-        return redirect(route('product.index'));
+        return redirect(route('products.index'));
     }
 
     /**

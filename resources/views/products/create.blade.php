@@ -16,9 +16,11 @@
                 </div>
                 {{--todo: status in create form--}}
                 <div class="form-group">
-                    <label for="status">Status:</label>
-                    <input type="checkbox" class="form-control" id="status" name="status" value="1"
-                           required>
+                    <label for="status">State</label>
+                    <select id="status" name="status" class="form-control" required>
+                        <option value="1" selected>Show</option>
+                        <option value="0">Hide</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="basePrice">Base price:</label>
@@ -28,7 +30,7 @@
                 <div class="form-group">
                     <label for="specialPrice">Special price:</label>
                     <input type="number" class="form-control" id="specialPrice" name="specialPrice"
-                           value="{{ old('specialPrice') }}" required>
+                           value="{{ old('specialPrice') }}">
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label>
