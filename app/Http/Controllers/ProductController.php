@@ -93,7 +93,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('products.edit', [
+            'product' => $product
+        ]);
     }
 
     /**
@@ -106,7 +108,24 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name'        => 'required',
+            'sku'         => 'required',
+            'status'      => 'required',
+            'basePrice'   => 'required',
+            'description' => 'required',
+
+        ]);
+
+        $product->name = $request->name;
+        $product->sku = $request->sku;
+        $product->status = $request->status;
+        $product->basePrice = $request->basePrice;
+        $product->specialPrice = $request->specialPrice;
+        $product->description = $request->description;
+        $product->save();
+        return redirect('products');
+
     }
 
     /**

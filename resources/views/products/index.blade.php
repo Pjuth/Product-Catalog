@@ -40,7 +40,7 @@
                     </td>
                     @auth
                         <td>
-                            <a href="#" class="btn btn-warning">Edit</a>
+                            <a href="{{ route('products.edit', $product) }}" class="btn btn-warning">Edit</a>
                             <a href="#" class="btn btn-danger">Delete</a>
                         </td>
                     @endauth
