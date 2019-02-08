@@ -16,11 +16,11 @@
                 <tr>
                     <td>
                         <div class="media">
-                            <a href="#" class="thumbnail pull-left"><img class="media-object"
+                            <a href="{{ route('products.show', $product) }}" class="thumbnail pull-left"><img class="media-object"
                                                                          src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png"
                                                                          style="width: 72px; height: 72px;"></a>
                             <div class="media-body ml-4">
-                                <h4 class="media-heading"><a href="#">{{ $product->name }}</a>
+                                <h4 class="media-heading"><a href="{{ route('products.show', $product) }}">{{ $product->name }}</a>
                                     @if(Auth::user() && !$product->status)
                                         <span class="text-danger">Hidden</span>
                                     @endif
