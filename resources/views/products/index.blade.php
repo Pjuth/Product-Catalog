@@ -26,22 +26,26 @@
                                     @endif
                                 </h4>
                                 <p>SKU: {{ $product->sku }}</p>
-                                <p>{{ $product->description }}</p>
+                                <p>{{ str_limit(strip_tags(preg_replace("/\s|&nbsp;/",' ',$product->description)), $limit = 100, $end = '...') }}</p>
                             </div>
                         </div>
                     </td>
                     <td>
                         @if($product->specialPrice)
-                            <h4 class="text-success">{{ $product->specialPrice }}</h4>
-                            <p><strike>{{ $product->basePrice }}</strike></p>
+                            <h4 class="text-success">{{ $product->specialPrice }} €</h4>
+                            <p><strike>{{ $product->basePrice }} €</strike></p>
                         @else
-                            <h4>{{ $product->basePrice }}</h4>
+                            <h4>{{ $product->basePrice }} €</h4>
                         @endif
                     </td>
                     @auth
                         <td>
                             <a href="{{ route('products.edit', $product) }}" class="btn btn-warning">Edit</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
+                            <form action="{{ route('products.destroy', $product->id) }}" method="post">
+                                @csrf
+                                {{ method_field('DELETE') }}
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
                         </td>
                     @endauth
                 </tr>

@@ -17,11 +17,11 @@ class ProductController extends Controller
     {
         if (Auth::user()) {
             return view('products/index', [
-                'products' => Product::paginate(10),
+                'products' => Product::orderBy('id', 'desc')->paginate(10),
             ]);
         } else {
             return view('products/index', [
-                'products' => Product::where('status', true)->paginate(10),
+                'products' => Product::where('status', true)->orderBy('id', 'desc')->paginate(10),
             ]);
         }
     }
@@ -80,7 +80,8 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return view('products.show', [
-           'product' => $product
+           'product' => $product,
+           'reviews' => $product->review()->orderBy('id', 'desc')->get(),
         ]);
     }
 
@@ -134,9 +135,12 @@ class ProductController extends Controller
      * @param  \App\Product $product
      *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Product $product)
     {
-        //
+        $product->review()->delete();
+        $product->delete();
+        return redirect('products');
     }
 }
