@@ -4,7 +4,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                img
+                <img src="{{ $product->image ? asset("images/$product->image") : "http://lorempixel.com/300/300/cats/Placeholder" }}" style="width: 300px; height: 300px">
+
             </div>
             <div class="col-md-8">
                 <h2>{{ $product->name }}</h2>
@@ -16,12 +17,16 @@
                     <h4>{{ $product->basePrice }} €</h4>
                 @endif
                 @auth
-                    <a href="#" class="btn btn-warning">Edit</a>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <a href="{{ route('products.edit', $product) }}" class="btn btn-warning">Edit</a>
+                    <form action="{{ route('products.destroy', $product->id) }}" method="post">
+                        @csrf
+                        {{ method_field('DELETE') }}
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
                 @endauth
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-md-4"></div>
             <div class="col-md-8">
                 <p>{!! $product->description !!}</p>

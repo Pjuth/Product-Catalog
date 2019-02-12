@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
+    /**
+     * ProductController constructor.
+     */
+    function __construct()
+    {
+        $this->middleware('auth', ['only' => ['edit', 'create', 'store', 'update', 'destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -46,24 +55,35 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
         $request->validate([
-            'name'        => 'required',
-            'sku'         => 'required',
-            'status'      => 'required',
-            'basePrice'   => 'required',
-            'description' => 'required',
+            'name'         => 'required',
+            'sku'          => 'required',
+            'status'       => 'required',
+            'basePrice'    => 'required|numeric|max:1000000',
+            'specialPrice' => 'numeric|max:1000000|nullable',
+            'image'        => 'mimes:jpeg,jpg,png|max:3000',
+            'description'  => 'required',
 
         ]);
+
+        $image = $request->file('image');
+        if ($image) {
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $imageName);
+        } else {
+            $imageName = null;
+        }
         Product::create([
             'name'         => $request->name,
             'sku'          => $request->sku,
             'status'       => $request->status,
             'basePrice'    => $request->basePrice,
             'specialPrice' => $request->specialPrice,
+            'image'        => $imageName,
             'description'  => $request->description,
         ]);
 
@@ -80,8 +100,8 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return view('products.show', [
-           'product' => $product,
-           'reviews' => $product->review()->orderBy('id', 'desc')->get(),
+            'product' => $product,
+            'reviews' => $product->review()->orderBy('id', 'desc')->get(),
         ]);
     }
 
@@ -95,7 +115,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return view('products.edit', [
-            'product' => $product
+            'product' => $product,
         ]);
     }
 
@@ -109,24 +129,40 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+
         $request->validate([
-            'name'        => 'required',
-            'sku'         => 'required',
-            'status'      => 'required',
-            'basePrice'   => 'required',
-            'description' => 'required',
+            'name'         => 'required',
+            'sku'          => 'required',
+            'status'       => 'required',
+            'basePrice'    => 'required|numeric|max:1000000',
+            'specialPrice' => 'numeric|max:1000000|nullable',
+            'image'        => 'mimes:jpeg,jpg,png|max:3000',
+            'description'  => 'required',
 
         ]);
+
+        $image = $request->file('image');
+        if ($image) {
+            if ($product->image) {
+                File::delete("images/$product->image");
+            }
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $destinationPath = public_path('/images');
+            $image->move($destinationPath, $imageName);
+        } else {
+            $imageName = null;
+        }
 
         $product->name = $request->name;
         $product->sku = $request->sku;
         $product->status = $request->status;
         $product->basePrice = $request->basePrice;
         $product->specialPrice = $request->specialPrice;
+        $product->image = $imageName;
         $product->description = $request->description;
         $product->save();
-        return redirect('products');
 
+        return redirect('products');
     }
 
     /**
@@ -140,7 +176,22 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->review()->delete();
+        File::delete("images/$product->image");
         $product->delete();
+
+        return redirect('products');
+    }
+
+    public function multipleDelete(Request $request)
+    {
+
+        foreach ($request->products as $id) {
+            $product = Product::findOrFail($id);
+            $product->review()->delete();
+            File::delete("images/$product->image");
+            $product->delete();
+        }
+
         return redirect('products');
     }
 }

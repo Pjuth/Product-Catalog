@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="form-wrapper">
                     <h2>Create product</h2>
-                    <form action="{{ route('products.store') }}" method="post" autocomplete="off">
+                    <form action="{{ route('products.store') }}" method="post" autocomplete="off" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-lg-5">
@@ -39,6 +39,10 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="exampleFormControlFile1">Product Image:</label>
+                            <input type="file" class="form-control-file" name="image" id="image">
+                        </div>
+                        <div class="form-group mt-4">
                             <label for="description">Description:</label>
                             <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
                             <script>tinymce.init({selector: 'textarea'});</script>

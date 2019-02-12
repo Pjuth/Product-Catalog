@@ -1,17 +1,3 @@
-{{--<table>--}}
-{{--@foreach($reviews as $review)--}}
-{{--<tr>--}}
-{{--<td>{{ $review->rating }}</td>--}}
-{{--<td>{{ $review->name }}</td>--}}
-{{--<td>{{ $review->message }}</td>--}}
-{{--@auth--}}
-{{--<td>--}}
-{{--<button class="btn btn-primary" onclick="deleteReview({{$review->id}})" id="ajaxDelete">Submit</button>--}}
-{{--</td>--}}
-{{--@endauth--}}
-{{--</tr>--}}
-{{--@endforeach--}}
-{{--</table>--}}
 <div class="row">
     <div class="col-md-12">
         <h1 class="text-center">Reviews</h1>

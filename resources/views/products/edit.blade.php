@@ -4,7 +4,7 @@
     <div class="container">
         <div class="form-wrapper">
             <h2>Edit product</h2>
-            <form action="{{ route('products.update', $product->id) }}" method="post" autocomplete="off">
+            <form action="{{ route('products.update', $product->id) }}" method="post" autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 {{ method_field('PUT') }}
                 <div class="form-row">
@@ -17,7 +17,8 @@
 
                     <div class="form-group col-lg-1">
                         <label for="pages">SKU:</label>
-                        <input type="text" class="form-control" id="sku" name="sku" value="{{ old('sku') ? old('sku') : $product->sku }}"
+                        <input type="text" class="form-control" id="sku" name="sku"
+                               value="{{ old('sku') ? old('sku') : $product->sku }}"
                                required>
                     </div>
                     <div class="form-group col-lg-2">
@@ -29,14 +30,21 @@
                     </div>
                     <div class="form-group col-lg-2">
                         <label for="basePrice">Base price:</label>
-                        <input type="number" class="form-control" id="basePrice" name="basePrice"
+                        <input type="text" class="form-control" id="basePrice" name="basePrice"
                                value="{{ old('basePrice') ? old('basePrice') : $product->basePrice }}">
                     </div>
                     <div class="form-group col-lg-2">
                         <label for="specialPrice">Special price:</label>
-                        <input type="number" class="form-control" id="specialPrice" name="specialPrice"
+                        <input type="text" class="form-control" id="specialPrice" name="specialPrice"
                                value="{{ old('specialPrice') ? old('specialPrice') : $product->specialPrice }}">
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Replace Image:</label>
+                    <img class="media-object ml-3"
+                         src="{{ $product->image ? asset("images/$product->image") : "http://lorempixel.com/100/100/cats/Placeholder" }}"
+                         style="width: 100px; height: 100px;"></a>
+                    <input type="file" class="form-control-file mt-3" name="image" id="image">
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label>

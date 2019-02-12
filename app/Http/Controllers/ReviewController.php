@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
+
+    /**
+     * ProductController constructor.
+     */
+    function __construct()
+    {
+        $this->middleware('auth', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
