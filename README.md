@@ -1,11 +1,11 @@
 # Product Catalog
 Laravel project 
 
-##Description
+## Description
 
 Simple product catalog application with basic management and price calculation capabilities.
 
-##Features
+## Features
 
 - Administration area
 
@@ -36,10 +36,6 @@ Switch to the repo folder
 Install all the dependencies using composer
 
     composer install
-
-Install all the dependencies using npm
-
-    npm install
 
 Copy the example env file and make the required configuration changes in the .env file
 
