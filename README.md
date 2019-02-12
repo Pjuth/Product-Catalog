@@ -55,7 +55,7 @@ Start the local development server
 
 You can now access the server at http://localhost:8000
 
-##Authentication
+## Authentication
 
 Ir you have seeded database, there is user created for testing purposes with credentials:
 
