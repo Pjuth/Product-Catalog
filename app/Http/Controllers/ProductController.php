@@ -24,15 +24,16 @@ class ProductController extends Controller
      */
     public function index()
     {
+
         if (Auth::user()) {
-            return view('products/index', [
-                'products' => Product::orderBy('id', 'desc')->paginate(10),
-            ]);
+            $products = Product::orderBy('id', 'desc')->paginate(10);
         } else {
-            return view('products/index', [
-                'products' => Product::where('status', true)->orderBy('id', 'desc')->paginate(10),
-            ]);
+            $products = Product::where('status', true)->orderBy('id', 'desc')->paginate(10);
         }
+
+        return view('products/index', [
+            'products' => $products,
+        ]);
     }
 
     /**
@@ -63,7 +64,7 @@ class ProductController extends Controller
             'sku'          => 'required',
             'status'       => 'required',
             'basePrice'    => 'required|numeric|max:1000000',
-            'specialPrice' => 'numeric|max:1000000|nullable',
+            'specialPrice' => 'numeric|max:99|nullable',
             'image'        => 'mimes:jpeg,jpg,png|max:3000',
             'description'  => 'required',
 
@@ -135,7 +136,7 @@ class ProductController extends Controller
             'sku'          => 'required',
             'status'       => 'required',
             'basePrice'    => 'required|numeric|max:1000000',
-            'specialPrice' => 'numeric|max:1000000|nullable',
+            'specialPrice' => 'numeric|max:99|nullable',
             'image'        => 'mimes:jpeg,jpg,png|max:3000',
             'description'  => 'required',
 
@@ -150,7 +151,11 @@ class ProductController extends Controller
             $destinationPath = public_path('/images');
             $image->move($destinationPath, $imageName);
         } else {
-            $imageName = null;
+            if ($product->image) {
+                $imageName = $product->image;
+            } else {
+                $imageName = null;
+            }
         }
 
         $product->name = $request->name;

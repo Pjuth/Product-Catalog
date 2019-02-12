@@ -8,33 +8,12 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-
     /**
      * ProductController constructor.
      */
     function __construct()
     {
         $this->middleware('auth', ['only' => ['destroy']]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -48,14 +27,13 @@ class ReviewController extends Controller
     {
 
         $validator = \Validator::make($request->all(), [
-            'name' => 'required|max:40',
+            'name'    => 'required|max:40',
             'message' => 'required|max:255',
-            'rating' => 'required|numeric|min:1|max:5',
+            'rating'  => 'required|numeric|min:1|max:5',
         ]);
 
-        if ($validator->fails())
-        {
-            return response()->json(['errors'=>$validator->errors()->all()]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
         }
         $review = new Review();
         $review->name = $request->name;
@@ -63,44 +41,8 @@ class ReviewController extends Controller
         $review->rating = $request->rating;
         $review->product_id = $request->product;
         $review->save();
-        return response()->json(['success'=>'Record is successfully added']);
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Review $review
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Review $review
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Review              $review
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Review $review)
-    {
-        //
+        return response()->json(['success' => ['Record is successfully added']]);
     }
 
     /**
