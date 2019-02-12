@@ -15,7 +15,7 @@
                         @auth
                             <th scope="col">Actions</th>
                             <th scope="col">
-                                <button type="submit" class="btn btn-outline-danger">Delete multiple</button>
+                                <button type="submit" class="btn btn-outline-danger">Delete</button>
                             </th>
                         @endauth
                     </tr>
@@ -35,17 +35,17 @@
                                                 <span class="text-danger">Hidden</span>
                                             @endif
                                         </h4>
-                                        <p>SKU: {{ $product->sku }}</p>
+                                        <p>SKU: {{ $product->sku }}, Reviews: {{ $product->review()->count() }}</p>
                                         <p>{{ str_limit(strip_tags(preg_replace("/\s|&nbsp;/",' ',$product->description)), $limit = 100, $end = '...') }}</p>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                @if($product->specialPrice)
-                                    <h4 class="text-success">{{ $product->specialPrice }} €</h4>
-                                    <p><strike>{{ $product->basePrice }} €</strike></p>
+                                @if($product->specialPrice())
+                                    <h4 class="text-success">{{ $product->specialPrice() }} €</h4>
+                                    <p><strike>{{ $product->basePrice() }} €</strike></p>
                                 @else
-                                    <h4>{{ $product->basePrice }} €</h4>
+                                    <h4>{{ $product->basePrice() }} €</h4>
                                 @endif
                             </td>
                             @auth

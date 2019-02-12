@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('sku');
             $table->boolean('status');
             $table->double('basePrice');
-            $table->double('specialPrice')->nullable();
+            $table->float('specialPrice')->nullable();
             $table->string('image')->nullable();
             $table->longText('description');
             $table->timestamps();

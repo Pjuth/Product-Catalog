@@ -6,7 +6,8 @@
             <div class="col-md-12">
                 <div class="form-wrapper">
                     <h2>Create product</h2>
-                    <form action="{{ route('products.store') }}" method="post" autocomplete="off" enctype="multipart/form-data">
+                    <form action="{{ route('products.store') }}" method="post" autocomplete="off"
+                          enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-lg-5">
@@ -28,13 +29,13 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-2">
-                                <label for="basePrice">Base price:</label>
-                                <input type="number" class="form-control" id="basePrice" name="basePrice"
+                                <label for="basePrice">Price (€):</label>
+                                <input type="text" class="form-control" id="basePrice" name="basePrice"
                                        value="{{ old('basePrice') }}" required>
                             </div>
                             <div class="form-group col-lg-2">
-                                <label for="specialPrice">Special price:</label>
-                                <input type="number" class="form-control" id="specialPrice" name="specialPrice"
+                                <label for="specialPrice">Special discount (%):</label>
+                                <input type="text" class="form-control" id="specialPrice" name="specialPrice"
                                        value="{{ old('specialPrice') }}">
                             </div>
                         </div>

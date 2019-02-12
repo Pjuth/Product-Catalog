@@ -12,3 +12,6 @@ Route::get('/products/{product}/updateReviews', 'ReviewController@updateReviews'
 Route::delete('review/destroy/{review}', 'ReviewController@destroy');
 Route::post('/products/{product}/postReview', 'ReviewController@store')->name('postReview');
 Route::resource('reviews', 'ReviewController');
+
+Route::get('configuration', 'ConfigurationController@edit')->name('configuration')->middleware('auth');
+Route::put('configuration/save', 'ConfigurationController@update')->name('saveConfiguration')->middleware('auth');

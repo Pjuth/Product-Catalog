@@ -4,7 +4,8 @@
     <div class="container">
         <div class="form-wrapper">
             <h2>Edit product</h2>
-            <form action="{{ route('products.update', $product->id) }}" method="post" autocomplete="off" enctype="multipart/form-data">
+            <form action="{{ route('products.update', $product->id) }}" method="post" autocomplete="off"
+                  enctype="multipart/form-data">
                 @csrf
                 {{ method_field('PUT') }}
                 <div class="form-row">
@@ -14,7 +15,6 @@
                                value="{{ old('name') ? old('name') : $product->name }}"
                                required>
                     </div>
-
                     <div class="form-group col-lg-1">
                         <label for="pages">SKU:</label>
                         <input type="text" class="form-control" id="sku" name="sku"
@@ -29,12 +29,12 @@
                         </select>
                     </div>
                     <div class="form-group col-lg-2">
-                        <label for="basePrice">Base price:</label>
+                        <label for="basePrice">Price (€):</label>
                         <input type="text" class="form-control" id="basePrice" name="basePrice"
                                value="{{ old('basePrice') ? old('basePrice') : $product->basePrice }}">
                     </div>
                     <div class="form-group col-lg-2">
-                        <label for="specialPrice">Special price:</label>
+                        <label for="specialPrice">Special discount (%):</label>
                         <input type="text" class="form-control" id="specialPrice" name="specialPrice"
                                value="{{ old('specialPrice') ? old('specialPrice') : $product->specialPrice }}">
                     </div>

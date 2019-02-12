@@ -4,17 +4,18 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <img src="{{ $product->image ? asset("images/$product->image") : "http://lorempixel.com/300/300/cats/Placeholder" }}" style="width: 300px; height: 300px">
+                <img src="{{ $product->image ? asset("images/$product->image") : "http://lorempixel.com/300/300/cats/Placeholder" }}"
+                     style="width: 300px; height: 300px">
 
             </div>
             <div class="col-md-8">
                 <h2>{{ $product->name }}</h2>
                 <p>{{ $product->sku }}</p>
-                @if($product->specialPrice)
-                    <h4 class="text-success">{{ $product->specialPrice }} €</h4>
-                    <p><strike>{{ $product->basePrice }} €</strike></p>
+                @if($product->specialPrice())
+                    <h4 class="text-success">{{ $product->specialPrice() }} €</h4>
+                    <p><strike>{{ $product->basePrice() }} €</strike></p>
                 @else
-                    <h4>{{ $product->basePrice }} €</h4>
+                    <h4>{{ $product->basePrice() }} €</h4>
                 @endif
                 @auth
                     <a href="{{ route('products.edit', $product) }}" class="btn btn-warning">Edit</a>
@@ -64,6 +65,7 @@
                 <div id="display-comment"></div>
             </div>
             <div class="alert alert-danger mt-2" style="display:none"></div>
+            <div class="alert alert-success mt-2" style="display:none"></div>
         </div>
         <div class="reviews">
             @include('products.reviews')
@@ -88,17 +90,22 @@
                         rating: $('#rating').val(),
                         message: $('#message').val(),
                     },
-                    success: function(data){
+                    success: function (data) {
                         jQuery('.alert-danger').empty();
-                        jQuery.each(data.errors, function(key, value){
+                        jQuery.each(data.errors, function (key, value) {
                             jQuery('.alert-danger').show();
-                            jQuery('.alert-danger').append('<p>'+value+'</p>');
+                            jQuery('.alert-danger').append('<p>' + value + '</p>');
                         });
-                        if (!data.errors){
+                        if (!data.errors) {
                             jQuery('.alert-danger').hide();
                             document.getElementById('review-form').reset();
                             loadReviews();
                         }
+                        jQuery('.alert-success').empty();
+                        jQuery.each(data.success, function (key, value) {
+                            jQuery('.alert-success').show();
+                            jQuery('.alert-success').append('<p>' + value + '</p>');
+                        });
                     }
                 });
             });
